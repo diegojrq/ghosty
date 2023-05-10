@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ghosty.Wrappers;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,80 +27,46 @@ namespace ghosty
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static System.Timers.Timer aTimer;
         public MainWindow()
         {
+            InitializeTimers();
             InitializeComponent();
         }
 
-        [Flags]
-        public enum MouseEventFlags
+        private void InitializeTimers()
         {
-            LEFTDOWN = 0x00000002,
-            LEFTUP = 0x00000004,
-            MIDDLEDOWN = 0x00000020,
-            MIDDLEUP = 0x00000040,
-            MOVE = 0x00000001,
-            ABSOLUTE = 0x00008000,
-            RIGHTDOWN = 0x00000008,
-            RIGHTUP = 0x00000010,
-            WHEEL = 0x00000800,
-            HWHEEL = 0x00001000,
-            XDOWN = 0x00000080,
-            XUP = 0x00000100
+            System.Windows.Threading.DispatcherTimer clockTimer = new System.Windows.Threading.DispatcherTimer();
+            clockTimer.Tick += new EventHandler(clockTimer_Tick);
+            clockTimer.Interval = new TimeSpan(0, 0, 1);
+            clockTimer.Start();
+
+            System.Windows.Threading.DispatcherTimer lastInputTimeTimer = new System.Windows.Threading.DispatcherTimer();
+            lastInputTimeTimer.Tick += new EventHandler(lastInputTimeTimer_Tick);
+            lastInputTimeTimer.Interval = new TimeSpan(0, 0, 1);
+            lastInputTimeTimer.Start();
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct MOUSEINPUT
+        private void clockTimer_Tick(Object source, EventArgs e)
         {
-            public int dx;
-            public int dy;
-            public int mouseData;
-            public MouseEventFlags dwFlags;
-            public uint time;
-            public UIntPtr dwExtraInfo;
+            LblClock.Content = DateTime.Now.ToString("dddd, dd MMMM yyyy hh:mm:ss");
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct INPUT
+        private void lastInputTimeTimer_Tick(Object source, EventArgs e)
         {
-            public int type;
-            public MOUSEINPUT mi;
-        }
-
-        [Flags]
-        public enum Win32Consts
-        {
-            INPUT_MOUSE = 0,
-            INPUT_KEYBOARD = 1,
-            INPUT_HARDWARE = 2,
-        }
-
-        [DllImport("user32.dll")]
-        public static extern uint SendInput(
-            uint nInputs,
-            ref INPUT pInputs,
-            int cbSize);
-
-        [DllImport("user32.dll", SetLastError = false)]
-        private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct LASTINPUTINFO
-        {
-            public uint cbSize;
-            public int dwTime;
+            LblLastInputTime.Content = GetLastInputTime();
         }
 
         static uint GetLastInputTime()
         {
             uint idleTime = 0;
-            LASTINPUTINFO lastInputInfo = new LASTINPUTINFO();
+            IOInput.LASTINPUTINFO lastInputInfo = new IOInput.LASTINPUTINFO();
             lastInputInfo.cbSize = (uint)Marshal.SizeOf(lastInputInfo);
             lastInputInfo.dwTime = 0;
 
             uint envTicks = (uint)Environment.TickCount;
 
-            if (GetLastInputInfo(ref lastInputInfo))
+            if (IOInput.GetLastInputInfo(ref lastInputInfo))
             {
                 uint lastInputTick = (uint)lastInputInfo.dwTime;
 
@@ -116,9 +84,9 @@ namespace ghosty
 
 
         private void MoveMouse() {
+            
             int distance = 200;
-            int speed = 2;
-
+            int speed = 1;
 
             for (int i = 0; i < distance; i++)
             {
@@ -126,21 +94,21 @@ namespace ghosty
 
                 try
                 {
-                    var mi = new MOUSEINPUT
+                    var mi = new IOInput.MOUSE_INPUT
                     {
                         dx = point.X,
                         dy = point.Y,
                         mouseData = 0,
                         time = 0,
-                        dwFlags = MouseEventFlags.MOVE,
+                        dwFlags = IOInput.MouseEventFlags.MOVE,
                         dwExtraInfo = UIntPtr.Zero
                     };
-                    var input = new INPUT
+                    var input = new IOInput.INPUT
                     {
                         mi = mi,
-                        type = Convert.ToInt32(Win32Consts.INPUT_MOUSE)
+                        type = Convert.ToInt32(IOInput.Win32Consts.INPUT_MOUSE)
                     };
-                    SendInput(1, ref input, Marshal.SizeOf(input));
+                    IOInput.SendInput(1, ref input, Marshal.SizeOf(input));
                 }
                 catch (Exception ex)
                 {
@@ -149,14 +117,14 @@ namespace ghosty
 
                 Thread.Sleep(speed);
             }
-            lbl.Content = GetLastInputTime().ToString();
+            //lbl.Content = GetLastInputTime().ToString();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 2);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
             dispatcherTimer.Start();
         }
     }

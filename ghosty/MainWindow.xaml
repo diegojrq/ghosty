@@ -7,8 +7,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="86,67,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Label x:Name="lbl" Content="Label" HorizontalAlignment="Left" Margin="520,234,0,0" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="56*"/>
+            <ColumnDefinition Width="163*"/>
+            <ColumnDefinition Width="66*"/>
+            <ColumnDefinition Width="515*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="30,67,0,0" VerticalAlignment="Top" Click="Button_Click" Grid.Column="1"/>
+        <Label x:Name="LblLastInputTime" Content="Label" HorizontalAlignment="Left" Margin="235,234,0,0" VerticalAlignment="Top" Grid.Column="3"/>
+        <Label x:Name="LblClock" Content="Label" HorizontalAlignment="Left" Margin="98,148,0,0" VerticalAlignment="Top" Grid.Column="3"/>
 
     </Grid>
 </Window>
