@@ -1,4 +1,4 @@
-﻿using ghosty.Wrappers;
+﻿using ghosty.Operators;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Point = System.Drawing.Point;
 
 namespace ghosty
@@ -27,24 +28,27 @@ namespace ghosty
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static System.Timers.Timer aTimer;
         public MainWindow()
         {
             InitializeTimers();
             InitializeComponent();
         }
 
+        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        private DispatcherTimer clockTimer = new DispatcherTimer();
+        private DispatcherTimer lastInputTimeTimer = new DispatcherTimer();
+
         private void InitializeTimers()
         {
-            System.Windows.Threading.DispatcherTimer clockTimer = new System.Windows.Threading.DispatcherTimer();
             clockTimer.Tick += new EventHandler(clockTimer_Tick);
             clockTimer.Interval = new TimeSpan(0, 0, 1);
             clockTimer.Start();
 
-            System.Windows.Threading.DispatcherTimer lastInputTimeTimer = new System.Windows.Threading.DispatcherTimer();
             lastInputTimeTimer.Tick += new EventHandler(lastInputTimeTimer_Tick);
             lastInputTimeTimer.Interval = new TimeSpan(0, 0, 1);
             lastInputTimeTimer.Start();
+            
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);            
         }
 
         private void clockTimer_Tick(Object source, EventArgs e)
@@ -54,7 +58,7 @@ namespace ghosty
 
         private void lastInputTimeTimer_Tick(Object source, EventArgs e)
         {
-            LblLastInputTime.Content = GetLastInputTime();
+            LblLastInputTime.Content = "System Idle Time: " + GetLastInputTime();
         }
 
         static uint GetLastInputTime()
@@ -82,7 +86,6 @@ namespace ghosty
             MoveMouse();
         }
 
-
         private void MoveMouse() {
             
             int distance = 200;
@@ -94,7 +97,7 @@ namespace ghosty
 
                 try
                 {
-                    var mi = new IOInput.MOUSE_INPUT
+                    var mouseInput = new IOInput.MOUSE_INPUT
                     {
                         dx = point.X,
                         dy = point.Y,
@@ -103,11 +106,13 @@ namespace ghosty
                         dwFlags = IOInput.MouseEventFlags.MOVE,
                         dwExtraInfo = UIntPtr.Zero
                     };
+
                     var input = new IOInput.INPUT
                     {
-                        mi = mi,
+                        mouseInput = mouseInput,
                         type = Convert.ToInt32(IOInput.Win32Consts.INPUT_MOUSE)
                     };
+
                     IOInput.SendInput(1, ref input, Marshal.SizeOf(input));
                 }
                 catch (Exception ex)
@@ -120,12 +125,23 @@ namespace ghosty
             //lbl.Content = GetLastInputTime().ToString();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
-            dispatcherTimer.Start();
+        private void BtnStartAction_Click(object sender, RoutedEventArgs e)
+        {            
+            if ((BtnStartAction.Content as string) == "Stop")
+            {
+                BtnStartAction.Content = "Start";
+                dispatcherTimer.Stop();
+            
+            } else { 
+            
+                if ((BtnStartAction.Content as string) == "Start")
+                {
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, Int32.Parse(TBInterval.Text));
+                    dispatcherTimer.Start();
+                    BtnStartAction.Content = "Stop";
+                }
+            }
+            
         }
     }
 }

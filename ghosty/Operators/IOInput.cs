@@ -5,25 +5,25 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ghosty.Wrappers
+namespace ghosty.Operators
 {
     internal class IOInput
     {
         [Flags]
         public enum MouseEventFlags
         {
+            ABSOLUTE = 0x00008000,
+            MOVE = 0x00000001,
             LEFTDOWN = 0x00000002,
             LEFTUP = 0x00000004,
-            MIDDLEDOWN = 0x00000020,
-            MIDDLEUP = 0x00000040,
-            MOVE = 0x00000001,
-            ABSOLUTE = 0x00008000,
             RIGHTDOWN = 0x00000008,
             RIGHTUP = 0x00000010,
-            WHEEL = 0x00000800,
-            HWHEEL = 0x00001000,
+            MIDDLEDOWN = 0x00000020,
+            MIDDLEUP = 0x00000040,
+            XUP = 0x00000100,
             XDOWN = 0x00000080,
-            XUP = 0x00000100
+            WHEEL = 0x00000800,
+            HWHEEL = 0x00001000
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -41,7 +41,7 @@ namespace ghosty.Wrappers
         public struct INPUT
         {
             public int type;
-            public MOUSE_INPUT mi;
+            public MOUSE_INPUT mouseInput;
         }
 
         [Flags]
