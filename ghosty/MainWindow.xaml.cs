@@ -1,4 +1,5 @@
-﻿using ghosty.Operators;
+﻿using ghosty.Actions.Mouse;
+using ghosty.Operators;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -82,47 +83,15 @@ namespace ghosty
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            // code goes here
             MoveMouse();
         }
 
         private void MoveMouse() {
-            
+
             int distance = 200;
             int speed = 1;
 
-            for (int i = 0; i < distance; i++)
-            {
-                Point point = new Point(0, -1);
-
-                try
-                {
-                    var mouseInput = new IOInput.MOUSE_INPUT
-                    {
-                        dx = point.X,
-                        dy = point.Y,
-                        mouseData = 0,
-                        time = 0,
-                        dwFlags = IOInput.MouseEventFlags.MOVE,
-                        dwExtraInfo = UIntPtr.Zero
-                    };
-
-                    var input = new IOInput.INPUT
-                    {
-                        mouseInput = mouseInput,
-                        type = Convert.ToInt32(IOInput.Win32Consts.INPUT_MOUSE)
-                    };
-
-                    IOInput.SendInput(1, ref input, Marshal.SizeOf(input));
-                }
-                catch (Exception ex)
-                {
-                    //StaticCode.Logger?.Here().Error(ex.Message);
-                }
-
-                Thread.Sleep(speed);
-            }
-            //lbl.Content = GetLastInputTime().ToString();
+            Actions.Mouse.MouseMove.MoveUp(distance, speed);
         }
 
         private void BtnStartAction_Click(object sender, RoutedEventArgs e)
