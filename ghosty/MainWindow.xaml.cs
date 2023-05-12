@@ -1,7 +1,9 @@
 ﻿using ghosty.Actions.Mouse;
 using ghosty.Operators;
+using ghosty.Views;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
@@ -87,11 +89,7 @@ namespace ghosty
         }
 
         private void MoveMouse() {
-
-            int distance = 200;
-            int speed = 1;
-
-            Actions.Mouse.MouseMove.MoveUp(distance, speed);
+            Actions.Mouse.MouseMove.MoveUp(Properties.Settings.Default.distance, Properties.Settings.Default.speed);
         }
 
         private void BtnStartAction_Click(object sender, RoutedEventArgs e)
@@ -105,12 +103,18 @@ namespace ghosty
             
                 if ((BtnStartAction.Content as string) == "Start")
                 {
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, Int32.Parse(TBInterval.Text));
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, Properties.Settings.Default.interval);
                     dispatcherTimer.Start();
                     BtnStartAction.Content = "Stop";
                 }
             }
             
+        }
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings settingsWindow = new Settings();
+            settingsWindow.Show();
         }
     }
 }
