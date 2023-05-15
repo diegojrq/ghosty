@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ghosty.Operators
 {
-    internal class IOInput
+    internal class IODefiners
     {
         [Flags]
         public enum MouseEventFlags

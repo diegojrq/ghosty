@@ -1,4 +1,5 @@
-﻿using ghosty.Operators;
+﻿using ghosty.Actions.System;
+using ghosty.Operators;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,23 +17,23 @@ namespace ghosty.Actions.Mouse
         {
             try
             {
-                var mouseInput = new IOInput.MOUSE_INPUT
+                var mouseInput = new IODefiners.MOUSE_INPUT
                 {
                     dx = point.X,
                     dy = point.Y,
                     mouseData = 0,
                     time = 0,
-                    dwFlags = IOInput.MouseEventFlags.MOVE,
+                    dwFlags = IODefiners.MouseEventFlags.MOVE,
                     dwExtraInfo = UIntPtr.Zero
                 };
 
-                var input = new IOInput.INPUT
+                var input = new IODefiners.INPUT
                 {
                     mouseInput = mouseInput,
-                    type = Convert.ToInt32(IOInput.Win32Consts.INPUT_MOUSE)
+                    type = Convert.ToInt32(IODefiners.Win32Consts.INPUT_MOUSE)
                 };
 
-                IOInput.SendInput(1, ref input, Marshal.SizeOf(input));
+                IODefiners.SendInput(1, ref input, Marshal.SizeOf(input));
             }
             catch (Exception ex)
             {

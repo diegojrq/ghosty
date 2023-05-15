@@ -1,4 +1,5 @@
 ﻿using ghosty.Actions.Mouse;
+using ghosty.Actions.System;
 using ghosty.Operators;
 using ghosty.Views;
 using System;
@@ -18,6 +19,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -35,6 +37,12 @@ namespace ghosty
         {
             InitializeTimers();
             InitializeComponent();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
         }
 
         private DispatcherTimer dispatcherTimer = new DispatcherTimer();
@@ -61,27 +69,10 @@ namespace ghosty
 
         private void lastInputTimeTimer_Tick(Object source, EventArgs e)
         {
-            LblLastInputTime.Content = "System Idle Time: " + GetLastInputTime();
+            LblLastInputTime.Content = "System Idle Time: " + SOInteraction.GetLastInputTime();
         }
 
-        static uint GetLastInputTime()
-        {
-            uint idleTime = 0;
-            IOInput.LASTINPUTINFO lastInputInfo = new IOInput.LASTINPUTINFO();
-            lastInputInfo.cbSize = (uint)Marshal.SizeOf(lastInputInfo);
-            lastInputInfo.dwTime = 0;
-
-            uint envTicks = (uint)Environment.TickCount;
-
-            if (IOInput.GetLastInputInfo(ref lastInputInfo))
-            {
-                uint lastInputTick = (uint)lastInputInfo.dwTime;
-
-                idleTime = envTicks - lastInputTick;
-            }
-
-            return ((idleTime > 0) ? (idleTime / 1000) : 0);
-        }
+        
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
@@ -94,18 +85,28 @@ namespace ghosty
 
         private void BtnStartAction_Click(object sender, RoutedEventArgs e)
         {            
-            if ((BtnStartAction.Content as string) == "Stop")
+            if (Properties.Settings.Default.isWorking)
             {
-                BtnStartAction.Content = "Start";
                 dispatcherTimer.Stop();
-            
-            } else { 
-            
-                if ((BtnStartAction.Content as string) == "Start")
+                Properties.Settings.Default.isWorking = false;
+
+                BtnStartAction.Content = new Image
+                {
+                    Source = new BitmapImage(new Uri("/Resources/Images/play.png", UriKind.Relative))
+                };
+
+            } else {             
+
+                if (!Properties.Settings.Default.isWorking)
                 {
                     dispatcherTimer.Interval = new TimeSpan(0, 0, Properties.Settings.Default.interval);
                     dispatcherTimer.Start();
-                    BtnStartAction.Content = "Stop";
+                    Properties.Settings.Default.isWorking = true;
+
+                    BtnStartAction.Content = new Image
+                    {
+                        Source = new BitmapImage(new Uri("/Resources/Images/stop.png", UriKind.Relative))
+                    };
                 }
             }
             
@@ -115,6 +116,21 @@ namespace ghosty
         {
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
+        }
+
+        private void BtnCloseApp_Click(object sender, RoutedEventArgs e)
+        {
+            Storyboard sb = this.GrdMainGrid.FindResource("PlayAnimationStoryboard") as Storyboard;
+            Storyboard.SetTarget(sb, this.GrdMainGrid);
+            sb.Completed += (sender, eArgs) => Application.Current.Shutdown();
+            sb.Begin();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            this.Left = desktopWorkingArea.Right - this.Width;
+            this.Top = desktopWorkingArea.Bottom - this.Height;
         }
     }
 }

@@ -58,5 +58,17 @@ namespace ghosty.Properties {
                 this["interval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isWorking {
+            get {
+                return ((bool)(this["isWorking"]));
+            }
+            set {
+                this["isWorking"] = value;
+            }
+        }
     }
 }
