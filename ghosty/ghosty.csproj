@@ -9,10 +9,20 @@
 
   <ItemGroup>
     <None Remove="ghost-tranparent.png" />
-    <None Remove="Resources\Images\close.png" />
-    <None Remove="Resources\Images\config-button-icon.png" />
-    <None Remove="Resources\Images\play.png" />
-    <None Remove="Resources\Images\stop.png" />
+    <None Remove="Resources\Images\close-button.png" />
+    <None Remove="Resources\Images\ghosty.png" />
+    <None Remove="Resources\Images\gosthy-icon.ico" />
+    <None Remove="Resources\Images\play-button.png" />
+    <None Remove="Resources\Images\settings-button.png" />
+    <None Remove="Resources\Images\stop-button.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\close-button.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -31,13 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Images\close.png" />
-    <Resource Include="Resources\Images\config-button-icon.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resources\Images\ghost-tranparent.png" />
-    <Resource Include="Resources\Images\play.png" />
-    <Resource Include="Resources\Images\stop.png" />
+    <Resource Include="Resources\Images\ghosty.png" />
+    <Resource Include="Resources\Images\gosthy-icon.ico" />
+    <Resource Include="Resources\Images\play-button.png" />
+    <Resource Include="Resources\Images\settings-button.png" />
+    <Resource Include="Resources\Images\stop-button.png" />
   </ItemGroup>
 
 </Project>

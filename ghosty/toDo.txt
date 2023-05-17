@@ -1,5 +1,7 @@
 ﻿@toDO
 
+<
+
 [DllImport("user32.dll")]
         public static extern uint SendInput(
             uint nInputs,
@@ -8,3 +10,14 @@
 
  - > ta no definer, segragar
 
+/>
+
+< Auto stop when user activity detected />
+< Windows startup />
+< Logging />
+< Random interval />
+< Minimize to tray />
+< Stats Windows />
+< Beautify Settings />
+< About />
+< Tray | Minimize to tray settings />

@@ -24,6 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Image = System.Windows.Controls.Image;
 using Point = System.Drawing.Point;
 
 namespace ghosty
@@ -36,6 +37,7 @@ namespace ghosty
         public MainWindow()
         {
             InitializeTimers();
+            InitializaTray();
             InitializeComponent();
         }
 
@@ -60,6 +62,11 @@ namespace ghosty
             lastInputTimeTimer.Start();
             
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);            
+        }
+
+        private void InitializaTray()
+        {
+            
         }
 
         private void clockTimer_Tick(Object source, EventArgs e)
@@ -92,7 +99,7 @@ namespace ghosty
 
                 BtnStartAction.Content = new Image
                 {
-                    Source = new BitmapImage(new Uri("/Resources/Images/play.png", UriKind.Relative))
+                    Source = new BitmapImage(new Uri("/Resources/Images/play-button.png", UriKind.Relative))
                 };
 
             } else {             
@@ -105,7 +112,7 @@ namespace ghosty
 
                     BtnStartAction.Content = new Image
                     {
-                        Source = new BitmapImage(new Uri("/Resources/Images/stop.png", UriKind.Relative))
+                        Source = new BitmapImage(new Uri("/Resources/Images/stop-button.png", UriKind.Relative))
                     };
                 }
             }

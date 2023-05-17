@@ -2,17 +2,27 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:ghosty"
     mc:Ignorable="d"
-    Title="MainWindow" Height="400" Width="400" WindowStyle="None" Opacity="0.98" AllowsTransparency="True" MouseDown="Window_MouseDown" Loaded="Window_Loaded"
+    Title="Ghosty"
+    Height="400"
+    Width="322"
+    WindowStyle="None"
+    AllowsTransparency="True"
+    MouseDown="Window_MouseDown"
+    Loaded="Window_Loaded"
+    Icon="/Resources/Images/gosthy-icon.ico"
     >
-        
+
+
     <Window.Background>
         <SolidColorBrush Color="Transparent"/>
     </Window.Background>
 
-    <Grid x:Name="GrdMainGrid" Margin="0,0,10,-6" Width="400" Height="400">        
+    <Grid x:Name="GrdMainGrid" Width="322" Height="400">      
+  
         <Grid.Style>
             <Style TargetType="Grid">
                 <Setter Property="Visibility" Value="Visible"/>
@@ -75,27 +85,19 @@
             </Style>
         </Grid.Resources>
         <Grid.Background>
-            <ImageBrush ImageSource="/Resources/Images/ghost-tranparent.png">
-                <ImageBrush.Transform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform X="70"/>
-                    </TransformGroup>
-                </ImageBrush.Transform>
+            <ImageBrush ImageSource="/Resources/Images/ghosty.png">                
             </ImageBrush>
         </Grid.Background>
         <Label x:Name="LblLastInputTime" Content="Label" HorizontalAlignment="Right" Margin="0,200,145,0" VerticalAlignment="Top"/>
         <Label x:Name="LblClock" Content="Label" HorizontalAlignment="Right" Margin="0,174,145,0" VerticalAlignment="Top"/>
-        <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnStartAction" Cursor="Hand" Margin="-120,220,0,0" VerticalAlignment="Top" Click="BtnStartAction_Click" Height="45" Width="45" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
-            <Image Source="/Resources/Images/play.png"></Image>
+        <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnStartAction" Cursor="Hand" Margin="-240,220,0,0" VerticalAlignment="Top" Click="BtnStartAction_Click" Height="40" Width="40" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
+            <Image Source="/Resources/Images/play-button.png"></Image>
         </Button>
-        <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnCloseApp" Cursor="Hand" Margin="320,30,0,0" VerticalAlignment="Top" Click="BtnCloseApp_Click" Height="30" Width="30" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
-            <Image Source="/Resources/Images/close.png"></Image>
+        <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnCloseApp" Cursor="Hand" Margin="240,20,0,0" VerticalAlignment="Top" Click="BtnCloseApp_Click" Height="30" Width="30" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
+            <Image Source="/Resources/Images/close-button.png"></Image>
         </Button>
-        <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnSettings" Cursor="Hand" Margin="-120,270,0,0" VerticalAlignment="Top" Click="BtnSettings_Click" Height="40" Width="40" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
-            <Image Source="/Resources/Images/config-button-icon.png"></Image>
+        <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnSettings" Cursor="Hand" Margin="-240,270,0,0" VerticalAlignment="Top" Click="BtnSettings_Click" Height="40" Width="40" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
+            <Image Source="/Resources/Images/settings-button.png"></Image>
         </Button>
 
 

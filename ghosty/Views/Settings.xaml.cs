@@ -38,6 +38,8 @@ namespace ghosty.Views
             Properties.Settings.Default.speed = Int32.Parse(TBSpeed.Text);
             Properties.Settings.Default.interval = Int32.Parse(TBInterval.Text);
 
+            Properties.Settings.Default.Save();
+
             Close();
         }
     }
