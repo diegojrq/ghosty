@@ -12,8 +12,12 @@
     <None Remove="Resources\Images\close-button.png" />
     <None Remove="Resources\Images\ghosty.png" />
     <None Remove="Resources\Images\gosthy-icon.ico" />
+    <None Remove="Resources\Images\green-ghost.png" />
+    <None Remove="Resources\Images\pink-ghost.png" />
     <None Remove="Resources\Images\play-button.png" />
     <None Remove="Resources\Images\settings-button.png" />
+    <None Remove="Resources\Images\stats-button.png" />
+    <None Remove="Resources\Images\stats-window.png" />
     <None Remove="Resources\Images\stop-button.png" />
   </ItemGroup>
 
@@ -44,8 +48,12 @@
     <Resource Include="Resources\Images\ghost-tranparent.png" />
     <Resource Include="Resources\Images\ghosty.png" />
     <Resource Include="Resources\Images\gosthy-icon.ico" />
+    <Resource Include="Resources\Images\green-ghost.png" />
+    <Resource Include="Resources\Images\pink-ghost.png" />
     <Resource Include="Resources\Images\play-button.png" />
     <Resource Include="Resources\Images\settings-button.png" />
+    <Resource Include="Resources\Images\stats-button.png" />
+    <Resource Include="Resources\Images\stats-window.png" />
     <Resource Include="Resources\Images\stop-button.png" />
   </ItemGroup>
 

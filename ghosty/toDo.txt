@@ -12,12 +12,13 @@
 
 />
 
+< Stats Windows : turn into a baloon over ghosty's head />
 < Auto stop when user activity detected />
 < Windows startup />
 < Logging />
 < Random interval />
 < Minimize to tray />
-< Stats Windows />
 < Beautify Settings />
 < About />
 < Tray | Minimize to tray settings />
+< Shutdown app on alt f4 (without close button) />

@@ -16,7 +16,6 @@
     Icon="/Resources/Images/gosthy-icon.ico"
     >
 
-
     <Window.Background>
         <SolidColorBrush Color="Transparent"/>
     </Window.Background>
@@ -31,14 +30,13 @@
                         <Trigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.0" To="0.9" Duration="0:0:3"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.0" To="0.9" Duration="0:0:5"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </Trigger.EnterActions>
                     </Trigger>
                 </Style.Triggers>
             </Style>
-
         </Grid.Style>
         
         <Grid.Resources>
@@ -88,9 +86,8 @@
             <ImageBrush ImageSource="/Resources/Images/ghosty.png">                
             </ImageBrush>
         </Grid.Background>
-        <Label x:Name="LblLastInputTime" Content="Label" HorizontalAlignment="Right" Margin="0,200,145,0" VerticalAlignment="Top"/>
-        <Label x:Name="LblClock" Content="Label" HorizontalAlignment="Right" Margin="0,174,145,0" VerticalAlignment="Top"/>
-        <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnStartAction" Cursor="Hand" Margin="-240,220,0,0" VerticalAlignment="Top" Click="BtnStartAction_Click" Height="40" Width="40" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
+        
+        <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnStartAction" Cursor="Hand" Margin="-240,100,0,0" VerticalAlignment="Top" Click="BtnStartAction_Click" Height="40" Width="40" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
             <Image Source="/Resources/Images/play-button.png"></Image>
         </Button>
         <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnCloseApp" Cursor="Hand" Margin="240,20,0,0" VerticalAlignment="Top" Click="BtnCloseApp_Click" Height="30" Width="30" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
@@ -99,9 +96,9 @@
         <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnSettings" Cursor="Hand" Margin="-240,270,0,0" VerticalAlignment="Top" Click="BtnSettings_Click" Height="40" Width="40" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
             <Image Source="/Resources/Images/settings-button.png"></Image>
         </Button>
-
-
-
+        <Button Style="{StaticResource MyButtonStyle}" x:Name="BtnStats" Cursor="Hand" Margin="-240,225,0,0" VerticalAlignment="Top" Click="BtnStats_Click" Height="40" Width="40" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" BorderThickness="0,0,0,0">
+            <Image Source="/Resources/Images/stats-button.png"></Image>
+        </Button>
     </Grid>
 
 </Window>

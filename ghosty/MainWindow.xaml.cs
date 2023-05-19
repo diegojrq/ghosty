@@ -34,10 +34,11 @@ namespace ghosty
     /// </summary>
     public partial class MainWindow : Window
     {
+        private DispatcherTimer actionTimer = new DispatcherTimer();
+
         public MainWindow()
         {
             InitializeTimers();
-            InitializaTray();
             InitializeComponent();
         }
 
@@ -47,41 +48,14 @@ namespace ghosty
                 this.DragMove();
         }
 
-        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        private DispatcherTimer clockTimer = new DispatcherTimer();
-        private DispatcherTimer lastInputTimeTimer = new DispatcherTimer();
 
         private void InitializeTimers()
         {
-            clockTimer.Tick += new EventHandler(clockTimer_Tick);
-            clockTimer.Interval = new TimeSpan(0, 0, 1);
-            clockTimer.Start();
-
-            lastInputTimeTimer.Tick += new EventHandler(lastInputTimeTimer_Tick);
-            lastInputTimeTimer.Interval = new TimeSpan(0, 0, 1);
-            lastInputTimeTimer.Start();
-            
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);            
+            actionTimer.Tick += new EventHandler(actionTimer_Tick);
+            Properties.Settings.Default.isWorking = false;
         }
 
-        private void InitializaTray()
-        {
-            
-        }
-
-        private void clockTimer_Tick(Object source, EventArgs e)
-        {
-            LblClock.Content = DateTime.Now.ToString("dddd, dd MMMM yyyy hh:mm:ss");
-        }
-
-        private void lastInputTimeTimer_Tick(Object source, EventArgs e)
-        {
-            LblLastInputTime.Content = "System Idle Time: " + SOInteraction.GetLastInputTime();
-        }
-
-        
-
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        private void actionTimer_Tick(object sender, EventArgs e)
         {
             MoveMouse();
         }
@@ -94,7 +68,7 @@ namespace ghosty
         {            
             if (Properties.Settings.Default.isWorking)
             {
-                dispatcherTimer.Stop();
+                actionTimer.Stop();
                 Properties.Settings.Default.isWorking = false;
 
                 BtnStartAction.Content = new Image
@@ -106,8 +80,8 @@ namespace ghosty
 
                 if (!Properties.Settings.Default.isWorking)
                 {
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, Properties.Settings.Default.interval);
-                    dispatcherTimer.Start();
+                    actionTimer.Interval = new TimeSpan(0, 0, Properties.Settings.Default.interval);
+                    actionTimer.Start();
                     Properties.Settings.Default.isWorking = true;
 
                     BtnStartAction.Content = new Image
@@ -138,6 +112,12 @@ namespace ghosty
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             this.Left = desktopWorkingArea.Right - this.Width;
             this.Top = desktopWorkingArea.Bottom - this.Height;
+        }
+
+        private void BtnStats_Click(object sender, RoutedEventArgs e)
+        {
+            Stats statsWindow = new Stats();
+            statsWindow.Show();
         }
     }
 }
